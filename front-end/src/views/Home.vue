@@ -1,5 +1,6 @@
 <template>
 <div>
+  <Admin v-if="user && user.role === 'admin'" />
   <MyTickets v-if="user" />
   <HomePage v-else />
 </div>
@@ -10,11 +11,14 @@ import axios from 'axios';
 
 import HomePage from '@/components/HomePage.vue'
 import MyTickets from '@/components/MyTickets.vue'
+import Admin from '@/components/Admin.vue';
+
 export default {
   name: 'home',
   components: {
     HomePage,
-    MyTickets
+    MyTickets,
+    Admin
   },
   async created() {
     try {

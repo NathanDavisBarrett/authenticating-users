@@ -36,12 +36,19 @@ const Ticket = mongoose.model('Ticket', ticketSchema);
 
 // get tickets -- will list tickets that a user has submitted
 router.get('/', validUser, async (req, res) => {
+  let tickets = [];
   try {
-    let tickets = await Ticket.find({
-      user: req.user
-    }).sort({
-      created: -1
-    });
+    if (req.user.role === "admin") {
+      tickets = await Ticket.find().sort({
+        created: -1
+      });
+    } else {
+      tickets = await Ticket.find({
+        user: req.user
+      }).sort({
+        created: -1
+      });
+    }
     return res.send({
       tickets: tickets
     });
